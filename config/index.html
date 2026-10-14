@@ -200,8 +200,37 @@
       font-size: 14px;
     }
 
+    /* ---- 90s bevel sliders ---- */
     #wingie-config input[type="range"] {
+      appearance: none;
       width: 100%;
+      height: 18px;
+      background: transparent;
+    }
+
+    #wingie-config input[type="range"]::-webkit-slider-runnable-track {
+      height: 4px;
+      border: 1px inset #ddd;
+      background: #fff;
+    }
+
+    #wingie-config input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 11px;
+      height: 18px;
+      margin-top: -8px;
+      border: 2px outset #cccccc;
+      border-radius: 0;
+      background: #cccccc;
+    }
+
+    #wingie-config input[type="range"]:active::-webkit-slider-thumb {
+      border-style: inset;
+    }
+
+    #wingie-config input[type="range"]:disabled::-webkit-slider-thumb {
+      border-color: #b8b8b8;
+      background: #b8b8b8;
     }
 
     #wingie-config input:focus-visible,
@@ -250,6 +279,22 @@
 
     #wingie-config .wg-button-primary:active:not(:disabled) {
       border-color: #333 #999 #999 #333;
+    }
+
+    /* ---- unsaved changes: red flag ---- */
+    #wingie-config .wg-button.wg-dirty {
+      border-color: #c66 #6b2a2a #6b2a2a #c66;
+      color: #fff;
+      background: #a33a3a;
+    }
+
+    #wingie-config .wg-button.wg-dirty:hover:not(:disabled) {
+      background: #933131;
+      border-color: #d77 #6b2a2a #6b2a2a #d77;
+    }
+
+    #wingie-config .wg-button.wg-dirty:active:not(:disabled) {
+      border-color: #6b2a2a #c66 #c66 #6b2a2a;
     }
 
     #wingie-config .wg-button:disabled,
@@ -422,6 +467,28 @@
       min-width: 420px;
     }
 
+    /* 音程列与文本框同宽，余宽全部让给比例列的推杆 */
+    #wingie-config .wg-ratio-table th:last-child,
+    #wingie-config .wg-ratio-table td[data-cents] {
+      width: 84px;
+    }
+
+    #wingie-config .wg-ratio-edit {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #wingie-config .wg-ratio-edit .wg-ratio-input {
+      width: 84px;
+      flex: none;
+    }
+
+    #wingie-config .wg-ratio-edit input[type="range"] {
+      flex: 1;
+      min-width: 120px;
+    }
+
     #wingie-config th,
     #wingie-config td {
       padding: 5px 8px;
@@ -455,7 +522,6 @@
       font-size: 11px;
       font-weight: 700;
       text-align: left;
-      text-transform: uppercase;
     }
 
     #wingie-config .wg-mute-cell {
@@ -469,10 +535,6 @@
       vertical-align: middle;
     }
 
-    #wingie-config .wg-mobile-scroll-note {
-      display: none;
-    }
-
     #wingie-config .wg-state {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
@@ -482,6 +544,13 @@
 
     #wingie-config .wg-state .wg-actions {
       justify-content: flex-end;
+    }
+
+    #wingie-config #wg-state-summary.wg-dirty {
+      padding: 3px 8px;
+      border: 2px outset #6b2a2a;
+      color: #3d1414;
+      background: #e6c6c0;
     }
 
     #wingie-config .wg-footer {
@@ -533,10 +602,6 @@
         grid-column: 1;
       }
 
-      #wingie-config .wg-mobile-scroll-note {
-        display: block;
-      }
-
       #wingie-config .wg-actions .wg-button {
         flex: 1 1 130px;
       }
@@ -581,7 +646,7 @@
             <div class="wg-field">
               <label for="wg-left-mode" data-i18n-zh="模式" data-i18n-en="Mode"></label>
               <select id="wg-left-mode" class="wg-select" data-value-key="param:left:mode" disabled>
-                <option value="0" data-i18n-zh="复音" data-i18n-en="Poly"></option><option value="1" data-i18n-zh="弦" data-i18n-en="String"></option><option value="2" data-i18n-zh="梁" data-i18n-en="Bar"></option><option value="3">Cave</option><option value="4" data-i18n-zh="比率" data-i18n-en="Ratio"></option>
+                <option value="0" data-i18n-zh="复音" data-i18n-en="Poly"></option><option value="1" data-i18n-zh="琴弦" data-i18n-en="String"></option><option value="2" data-i18n-zh="音块" data-i18n-en="Bar"></option><option value="3">Cave</option><option value="4" data-i18n-zh="比率" data-i18n-en="Ratio"></option>
               </select>
             </div>
             <div class="wg-field">
@@ -591,14 +656,14 @@
           </div>
           <div class="wg-divider"></div>
           <div class="wg-bank-head">
-            <h3 data-i18n-zh="Cave 音库" data-i18n-en="Cave Banks"></h3>
-            <div class="wg-bank-tabs" data-bank-tabs="left" data-i18n-aria-zh="左 Cave 音库" data-i18n-aria-en="Left Cave banks">
-              <button class="wg-bank-button" type="button" data-side="left" data-bank="0" aria-pressed="true" data-i18n-zh="第 1 组" data-i18n-en="Bank 1"></button>
-              <button class="wg-bank-button" type="button" data-side="left" data-bank="1" aria-pressed="false" data-i18n-zh="第 2 组" data-i18n-en="Bank 2"></button>
-              <button class="wg-bank-button" type="button" data-side="left" data-bank="2" aria-pressed="false" data-i18n-zh="第 3 组" data-i18n-en="Bank 3"></button>
+            <h3 data-i18n-zh="Cave bank" data-i18n-en="Cave Banks"></h3>
+            <div class="wg-bank-tabs" data-bank-tabs="left" data-i18n-aria-zh="左 Cave bank" data-i18n-aria-en="Left Cave banks">
+              <button class="wg-bank-button" type="button" data-side="left" data-bank="0" aria-pressed="true" data-i18n-zh="低档" data-i18n-en="Low"></button>
+              <button class="wg-bank-button" type="button" data-side="left" data-bank="1" aria-pressed="false" data-i18n-zh="中档" data-i18n-en="Mid"></button>
+              <button class="wg-bank-button" type="button" data-side="left" data-bank="2" aria-pressed="false" data-i18n-zh="高档" data-i18n-en="High"></button>
             </div>
           </div>
-          <div class="wg-table-wrap"><table data-i18n-aria-zh="左 Cave 音库" data-i18n-aria-en="Left Cave bank"><thead><tr><th data-i18n-zh="共鸣器" data-i18n-en="Resonator"></th><th data-i18n-zh="频率 Hz" data-i18n-en="Frequency Hz"></th><th class="wg-mute-cell" data-i18n-zh="静音" data-i18n-en="Mute"></th></tr></thead><tbody id="wg-left-cave-rows"></tbody></table></div>
+          <div class="wg-table-wrap"><table data-i18n-aria-zh="左 Cave bank" data-i18n-aria-en="Left Cave bank"><thead><tr><th data-i18n-zh="共鸣器" data-i18n-en="Resonator"></th><th data-i18n-zh="频率 Hz" data-i18n-en="Frequency Hz"></th><th class="wg-mute-cell" data-i18n-zh="静音" data-i18n-en="Mute"></th></tr></thead><tbody id="wg-left-cave-rows"></tbody></table></div>
           <p id="wg-left-cave-meta" class="wg-meta"></p>
         </section>
 
@@ -612,7 +677,7 @@
             <div class="wg-field">
               <label for="wg-right-mode" data-i18n-zh="模式" data-i18n-en="Mode"></label>
               <select id="wg-right-mode" class="wg-select" data-value-key="param:right:mode" disabled>
-                <option value="0" data-i18n-zh="复音" data-i18n-en="Poly"></option><option value="1" data-i18n-zh="弦" data-i18n-en="String"></option><option value="2" data-i18n-zh="梁" data-i18n-en="Bar"></option><option value="3">Cave</option><option value="4" data-i18n-zh="比率" data-i18n-en="Ratio"></option>
+                <option value="0" data-i18n-zh="复音" data-i18n-en="Poly"></option><option value="1" data-i18n-zh="琴弦" data-i18n-en="String"></option><option value="2" data-i18n-zh="音块" data-i18n-en="Bar"></option><option value="3">Cave</option><option value="4" data-i18n-zh="比率" data-i18n-en="Ratio"></option>
               </select>
             </div>
             <div class="wg-field">
@@ -622,33 +687,32 @@
           </div>
           <div class="wg-divider"></div>
           <div class="wg-bank-head">
-            <h3 data-i18n-zh="Cave 音库" data-i18n-en="Cave Banks"></h3>
-            <div class="wg-bank-tabs" data-bank-tabs="right" data-i18n-aria-zh="右 Cave 音库" data-i18n-aria-en="Right Cave banks">
-              <button class="wg-bank-button" type="button" data-side="right" data-bank="0" aria-pressed="true" data-i18n-zh="第 1 组" data-i18n-en="Bank 1"></button>
-              <button class="wg-bank-button" type="button" data-side="right" data-bank="1" aria-pressed="false" data-i18n-zh="第 2 组" data-i18n-en="Bank 2"></button>
-              <button class="wg-bank-button" type="button" data-side="right" data-bank="2" aria-pressed="false" data-i18n-zh="第 3 组" data-i18n-en="Bank 3"></button>
+            <h3 data-i18n-zh="Cave bank" data-i18n-en="Cave Banks"></h3>
+            <div class="wg-bank-tabs" data-bank-tabs="right" data-i18n-aria-zh="右 Cave bank" data-i18n-aria-en="Right Cave banks">
+              <button class="wg-bank-button" type="button" data-side="right" data-bank="0" aria-pressed="true" data-i18n-zh="低档" data-i18n-en="Low"></button>
+              <button class="wg-bank-button" type="button" data-side="right" data-bank="1" aria-pressed="false" data-i18n-zh="中档" data-i18n-en="Mid"></button>
+              <button class="wg-bank-button" type="button" data-side="right" data-bank="2" aria-pressed="false" data-i18n-zh="高档" data-i18n-en="High"></button>
             </div>
           </div>
-          <div class="wg-table-wrap"><table data-i18n-aria-zh="右 Cave 音库" data-i18n-aria-en="Right Cave bank"><thead><tr><th data-i18n-zh="共鸣器" data-i18n-en="Resonator"></th><th data-i18n-zh="频率 Hz" data-i18n-en="Frequency Hz"></th><th class="wg-mute-cell" data-i18n-zh="静音" data-i18n-en="Mute"></th></tr></thead><tbody id="wg-right-cave-rows"></tbody></table></div>
+          <div class="wg-table-wrap"><table data-i18n-aria-zh="右 Cave bank" data-i18n-aria-en="Right Cave bank"><thead><tr><th data-i18n-zh="共鸣器" data-i18n-en="Resonator"></th><th data-i18n-zh="频率 Hz" data-i18n-en="Frequency Hz"></th><th class="wg-mute-cell" data-i18n-zh="静音" data-i18n-en="Mute"></th></tr></thead><tbody id="wg-right-cave-rows"></tbody></table></div>
           <p id="wg-right-cave-meta" class="wg-meta"></p>
         </section>
       </div>
 
       <section class="wg-section" aria-labelledby="wg-ratio-title">
         <div class="wg-section-head">
-          <div><h2 id="wg-ratio-title" data-i18n-zh="自定义比例模式设定" data-i18n-en="Ratio Mode Profile"></h2><p class="wg-help" data-i18n-zh="左右共用 9 个比例；有效数字编辑在 150 ms 后写入运行状态。" data-i18n-en="Both sides share 9 ratios; valid numeric edits reach the running state after 150 ms."></p><p class="wg-help" data-i18n-zh="Ratio 复音模式下，声部 1/2/3 分别使用槽 1/2/3 的比例。" data-i18n-en="In Ratio poly mode, voices 1/2/3 use the ratios of Slots 1/2/3 respectively."></p></div>
+          <div><h2 id="wg-ratio-title" data-i18n-zh="Ratio 模式设定" data-i18n-en="Ratio Mode Profile"></h2><p class="wg-help" data-i18n-zh="三复音，每复音对应三个共鸣器" data-i18n-en="Three-voice polyphony, three resonators per voice"></p></div>
           <div class="wg-actions">
-            <button id="wg-copy-slot1" class="wg-button" type="button" disabled data-i18n-zh="复制槽 1 到槽 2、3" data-i18n-en="Copy Slot 1 to Slots 2&amp;3"></button>
+            <button id="wg-copy-slot1" class="wg-button" type="button" disabled data-i18n-zh="复制 Voice 1 到 Voice 2、3" data-i18n-en="Copy Voice 1 to Voices 2&amp;3"></button>
             <button id="wg-factory" class="wg-button" type="button" disabled data-i18n-zh="恢复出厂比例" data-i18n-en="Factory Ratio"></button>
           </div>
         </div>
-        <p class="wg-help wg-mobile-scroll-note" data-i18n-zh="表格可横向滑动查看左右频率。" data-i18n-en="Swipe horizontally to view both frequencies."></p>
         <div class="wg-table-wrap"><table class="wg-ratio-table" data-i18n-aria-zh="比例配置" data-i18n-aria-en="Ratio profile"><thead><tr><th data-i18n-zh="共鸣器" data-i18n-en="Resonator"></th><th data-i18n-zh="比例" data-i18n-en="Ratio"></th><th data-i18n-zh="音程" data-i18n-en="Interval"></th></tr></thead><tbody id="wg-ratio-rows"></tbody></table></div>
         <p id="wg-ratio-meta" class="wg-meta"></p>
       </section>
 
       <section class="wg-section" aria-labelledby="wg-shared-title">
-        <div class="wg-section-head"><div><h2 id="wg-shared-title" data-i18n-zh="共享设置" data-i18n-en="Shared Settings"></h2><p class="wg-help" data-i18n-zh="全局调律、增益与 MIDI 路由。" data-i18n-en="Global tuning, gain and MIDI routing."></p></div></div>
+        <div class="wg-section-head"><div><h2 id="wg-shared-title" data-i18n-zh="共享设置" data-i18n-en="Shared Settings"></h2></div></div>
         <div class="wg-shared-grid">
           <div class="wg-field wg-field-half"><label for="wg-a3" data-i18n-zh="A3 频率 Hz" data-i18n-en="A3 Frequency Hz"></label><input id="wg-a3" class="wg-number" data-value-key="param:shared:a3_hz" type="text" inputmode="decimal" disabled></div>
           <div class="wg-field wg-field-half"><label for="wg-tuning" data-i18n-zh="调律" data-i18n-en="Tuning"></label><select id="wg-tuning" class="wg-select" data-value-key="param:shared:tuning" disabled><option value="-1" data-i18n-zh="标准" data-i18n-en="Standard"></option><option value="0">Centaur</option><option value="1">Harp of New Albion</option><option value="2">Wendy Carlos Harmonic</option><option value="3">Well Tuned Piano</option><option value="4">Meta Slendro</option><option value="5">Bihexany</option><option value="6">Hexachordal Dodecaphonic</option><option value="7">Augmented[12]</option></select></div>
@@ -658,6 +722,7 @@
           <div class="wg-field wg-field-third"><label for="wg-midi-right" data-i18n-zh="MIDI 右通道" data-i18n-en="MIDI Right Channel"></label><input id="wg-midi-right" class="wg-number" data-value-key="param:shared:midi_right" type="text" inputmode="numeric" disabled></div>
           <div class="wg-field wg-field-third"><label for="wg-midi-both" data-i18n-zh="MIDI 双通道" data-i18n-en="MIDI Both Channel"></label><input id="wg-midi-both" class="wg-number" data-value-key="param:shared:midi_both" type="text" inputmode="numeric" disabled></div>
           <div class="wg-field wg-field-full"><label for="wg-mpe-enabled" data-i18n-zh="MPE 模式" data-i18n-en="MPE Mode"></label><select id="wg-mpe-enabled" class="wg-select" data-value-key="param:shared:mpe_enabled" disabled><option value="0" data-i18n-zh="关闭：三通道分立路由" data-i18n-en="Off: three-channel routing"></option><option value="1" data-i18n-zh="开启：标准 Lower Zone（Ch1 + Ch2–16，左右交替）" data-i18n-en="On: standard Lower Zone (Ch1 + Ch2-16, L/R alternating)"></option></select></div>
+          <div class="wg-field wg-field-full"><label for="wg-line-input-mono" data-i18n-zh="线路输入" data-i18n-en="Line Input"></label><select id="wg-line-input-mono" class="wg-select" data-value-key="param:shared:line_input_mono" disabled><option value="0" data-i18n-zh="立体声：左右各自进入对应共鸣器" data-i18n-en="Stereo: each side feeds its resonator"></option><option value="1" data-i18n-zh="单声道：L+R 混合后进入左右共鸣器（仅线路；麦克风仍立体声）" data-i18n-en="Mono: L+R summed into both resonators (line only; mic stays stereo)"></option></select></div>
         </div>
       </section>
 
@@ -672,7 +737,7 @@
         </div>
       </section>
 
-      <footer class="wg-footer" data-i18n-zh="桌面 Chrome / Edge · Web Serial · HTTPS · 无网络请求 · 每秒后台同步" data-i18n-en="Desktop Chrome / Edge · Web Serial · HTTPS · No network requests · 1-second background sync"></footer>
+      <footer class="wg-footer" data-i18n-zh="无网络请求 · 需 HTTPS 与桌面 Chrome / Edge" data-i18n-en="No network requests · Requires HTTPS and desktop Chrome / Edge"></footer>
     </div>
   </main>
 
@@ -685,6 +750,8 @@
       const bankCount = 3;
       const resonatorCount = 9;
       const ratioSlotSize = 3;
+      const ratioSliderMin = 0.25;
+      const ratioSliderMax = 10;
       const encoder = new TextEncoder();
       const decoder = new TextDecoder();
 
@@ -723,7 +790,8 @@
         "param:shared:midi_left": {target: "shared", name: "midi_left", path: ["shared", "midi", "left"], min: 1, max: 16, step: 1},
         "param:shared:midi_right": {target: "shared", name: "midi_right", path: ["shared", "midi", "right"], min: 1, max: 16, step: 1},
         "param:shared:midi_both": {target: "shared", name: "midi_both", path: ["shared", "midi", "both"], min: 1, max: 16, step: 1},
-        "param:shared:mpe_enabled": {target: "shared", name: "mpe_enabled", path: ["shared", "mpe_enabled"], min: 0, max: 1, step: 1, immediate: true}
+        "param:shared:mpe_enabled": {target: "shared", name: "mpe_enabled", path: ["shared", "mpe_enabled"], min: 0, max: 1, step: 1, immediate: true},
+        "param:shared:line_input_mono": {target: "shared", name: "line_input_mono", path: ["shared", "line_input_mono"], min: 0, max: 1, step: 1, immediate: true}
       };
 
       const state = {
@@ -815,7 +883,7 @@
         else if (state.refreshing || state.polling) label = state.lightPolling ? copy("正在同步设备状态…", "Syncing device state…") : copy("正在读取完整设备配置…", "Reading the full device configuration…");
         else if (state.saving || pendingUiWriteCount()) label = copy("实时写入期间暂停轮询", "Polling pauses during live writes");
         else if (state.pollError) label = copy(`轮询失败：${state.pollError}`, `Polling failed: ${state.pollError}`);
-        else label = state.lightPolling ? copy("每秒同步设备状态；编辑或写入期间自动跳过", "Syncing device state every second; pauses while editing or writing") : copy("每秒从设备读取一次完整配置", "Reading the full device configuration every second");
+        else label = "";
         state.pollStatusLabel = label;
         elements.pollStatus.textContent = localized(label);
       }
@@ -939,16 +1007,21 @@
         });
       }
 
-      async function helloWhenReady(timeout = 5000) {
+      async function helloWhenReady(timeout = 8000) {
         const deadline = Date.now() + timeout;
         while (true) {
           try {
             return await request("hello");
           } catch (error) {
             const code = error.payload && error.payload.error && error.payload.error.code;
-            if (code !== "busy" || Date.now() >= deadline) throw error;
+            // 超时重试与 busy 重试同等必要：上电/复位后的启动期（实测约 2.7s，
+            // 其中 AC101 codec 初始化占约 1.2s）内发出的第一条 hello 落在串口
+            // 驱动就绪之前而丢失，无任何应答——超时不是放弃理由，是重发理由。
+            // 首次重发约在 3.7s，晚于固件就绪约 1s。
+            const timedOut = / timeout$/.test(error.message);
+            if ((code !== "busy" && !timedOut) || Date.now() + 200 >= deadline) throw error;
             setConnection("connecting", copy("Wingie2 正在启动…", "Wingie2 is starting…"));
-            await new Promise((resolve) => window.setTimeout(resolve, 100));
+            await new Promise((resolve) => window.setTimeout(resolve, 200));
           }
         }
       }
@@ -958,18 +1031,24 @@
         elements.connect.disabled = true;
         setConnection("connecting", copy("正在连接…", "Connecting…"));
         try {
+          // 等在途 disconnect() 收尾后再动手：其收尾会置空 state.port，若在此期间
+          // 抢跑开新口，旧收尾会把新连接的 port 一并拆掉（快速断开→连接必踩）。
+          const disconnectDeadline = Date.now() + 3000;
+          while (state.disconnecting && Date.now() < disconnectDeadline) {
+            await new Promise((resolve) => window.setTimeout(resolve, 20));
+          }
           state.disconnecting = false;
           state.port = await navigator.serial.requestPort();
           await state.port.open({baudRate: 115200});
           state.writer = state.port.writable.getWriter();
           state.readLoop = readSerialLoop();
           const hello = await helloWhenReady();
-          if (hello.device !== "Wingie2" || Number(hello.config_schema) !== 5) throw new Error(languageText("需要 Wingie2 配置 schema 5 固件。", "Wingie2 config schema 5 firmware is required."));
+          if (hello.device !== "Wingie2" || Number(hello.config_schema) !== 6) throw new Error(languageText("需要 Wingie2 配置 schema 6 固件。", "Wingie2 config schema 6 firmware is required."));
           state.connected = true;
           await refreshAll(false);
           startPolling();
           setConnection("connected", copy("Wingie2 已连接", "Connected"));
-          setAlert(copy("已读取设备快照；页面每秒后台同步，编辑或写入期间自动跳过。", "Device snapshot loaded; the page syncs every second and pauses while editing or writing."), "success");
+          setAlert(copy("已读取设备快照。", "Device snapshot loaded."), "success");
         } catch (error) {
           await disconnect(false);
           elements.connect.disabled = false;
@@ -1050,7 +1129,25 @@
         return state.lightPolling === false ? pollFullSnapshot() : pollLightSnapshot();
       }
 
+      // 固件 get_settings 下发性能参数 limits（named 扁平数组 [min,max,step]）；
+      // 旧固件无 limits 时保留 parameterSpecs 硬编码默认值（渐进增强，不回退校验逻辑）
+      function applyParameterLimits(limits) {
+        if (!limits || typeof limits !== "object") return;
+        for (const spec of Object.values(parameterSpecs)) {
+          const limit = limits[spec.name];
+          if (!Array.isArray(limit) || limit.length < 3) continue;
+          const min = Number(limit[0]);
+          const max = Number(limit[1]);
+          const step = Number(limit[2]);
+          if (![min, max, step].every(Number.isFinite) || !(step > 0) || min > max) continue;
+          spec.min = min;
+          spec.max = max;
+          spec.step = step;
+        }
+      }
+
       function normalizeSettings(response) {
+        applyParameterLimits(response.limits);
         return {
           dirty: Boolean(response.dirty),
           left: clone(response.left),
@@ -1590,7 +1687,7 @@
       function copySlot1ToSlots() {
         if (!state.ratio) return;
         const active = document.activeElement;
-        if (active && active.classList && active.classList.contains("wg-ratio-input")) active.blur();
+        if (active && active.classList && (active.classList.contains("wg-ratio-input") || active.classList.contains("wg-ratio-slider"))) active.blur();
         for (let index = ratioSlotSize; index < resonatorCount; index += 1) {
           state.ratio.draft[index] = state.ratio.draft[index % ratioSlotSize];
           state.ratio.raw[index] = formatNumber(state.ratio.draft[index], state.ratio.limits.step);
@@ -1606,11 +1703,11 @@
             const slot = index / ratioSlotSize + 1;
             const slotRow = document.createElement("tr");
             slotRow.className = "wg-ratio-slot";
-            slotRow.innerHTML = `<td colspan="3" data-i18n-zh="槽 ${slot}" data-i18n-en="Slot ${slot}"></td>`;
+            slotRow.innerHTML = `<td colspan="3" data-i18n-zh="Voice ${slot}" data-i18n-en="Voice ${slot}"></td>`;
             elements.ratioRows.appendChild(slotRow);
           }
           const ratioRow = document.createElement("tr");
-          ratioRow.innerHTML = `<td>${index + 1}</td><td><input class="wg-ratio-input" data-value-key="ratio:${index}" data-ratio-index="${index}" type="text" inputmode="decimal" aria-label="${languageText(`共鸣器 ${index + 1} 比例`, `Resonator ${index + 1} ratio`)}" disabled></td><td data-cents="${index}">—</td>`;
+          ratioRow.innerHTML = `<td>${index + 1}</td><td><div class="wg-ratio-edit"><input class="wg-ratio-input" data-value-key="ratio:${index}" data-ratio-index="${index}" type="text" inputmode="decimal" aria-label="${languageText(`共鸣器 ${index + 1} 比例`, `Resonator ${index + 1} ratio`)}" disabled><input class="wg-ratio-slider" data-ratio-index="${index}" data-ratio-slider="${index}" type="range" min="${ratioSliderMin}" max="${ratioSliderMax}" step="0.001" aria-label="${languageText(`共鸣器 ${index + 1} 比例推杆`, `Resonator ${index + 1} ratio slider`)}" disabled></div></td><td data-cents="${index}">—</td>`;
           elements.ratioRows.appendChild(ratioRow);
           for (const side of sides) {
             const row = document.createElement("tr");
@@ -1632,12 +1729,22 @@
           if (!ratio) input.value = "";
           else if (document.activeElement !== input) input.value = ratio.raw[index];
         });
+        elements.ratioRows.querySelectorAll(".wg-ratio-slider").forEach((slider, index) => {
+          slider.setAttribute("aria-label", languageText(`共鸣器 ${index + 1} 比例推杆`, `Resonator ${index + 1} ratio slider`));
+          slider.disabled = !state.connected || !ratio || state.saving || state.refreshing;
+          if (!ratio) return;
+          slider.step = ratio.limits.step;
+          if (document.activeElement !== slider) {
+            const value = Number(ratio.draft[index]);
+            slider.value = Math.min(ratioSliderMax, Math.max(ratioSliderMin, value));
+          }
+        });
         for (let index = 0; index < resonatorCount; index += 1) {
           const value = ratio ? Number(ratio.draft[index]) : NaN;
           const cents = root.querySelector(`[data-cents="${index}"]`);
           cents.textContent = Number.isFinite(value) && value > 0 ? `${(1200 * Math.log2(value)).toFixed(1)} ¢` : "—";
         }
-        elements.ratioMeta.textContent = ratio ? `${languageText("比例", "Ratio")} ${ratio.limits.min}–${ratio.limits.max} · ${languageText(`修订 ${ratio.revision}`, `revision ${ratio.revision}`)}${ratio.dirty ? languageText(" · RAM 未保存", " · RAM unsaved") : languageText(" · 已保存", " · saved")}` : languageText("范围由设备提供", "Range provided by device");
+        elements.ratioMeta.textContent = ratio ? `${languageText("比例", "Ratio")} ${ratio.limits.min}–${ratio.limits.max}${ratio.dirty ? languageText(" · RAM 未保存", " · RAM unsaved") : languageText(" · 已保存", " · saved")}` : "";
       }
 
       function renderCave(side) {
@@ -1655,7 +1762,7 @@
           input.disabled = !state.connected || !state.caveCacheValid || !bank || state.saving || state.refreshing;
           if (bank) input.checked = bank.draftMute[index];
         });
-        elements.caveMeta[side].textContent = bank ? `${formatNumber(bank.limits.min, bank.limits.step)}–${formatNumber(bank.limits.max, bank.limits.step)} Hz · ${languageText(`修订 ${bank.revision}`, `revision ${bank.revision}`)}${bank.dirty ? languageText(" · RAM 未保存", " · RAM unsaved") : languageText(" · 已保存", " · saved")}` : languageText("范围由设备提供", "Range provided by device");
+        elements.caveMeta[side].textContent = bank ? `${formatNumber(bank.limits.min, bank.limits.step)}–${formatNumber(bank.limits.max, bank.limits.step)} Hz${bank.dirty ? languageText(" · RAM 未保存", " · RAM unsaved") : languageText(" · 已保存", " · saved")}` : "";
       }
 
       function dirtyCount() {
@@ -1692,6 +1799,9 @@
         else if (state.pollError) elements.stateSummary.textContent = languageText(`后台同步失败：${state.pollError}；请点刷新。`, `Background sync failed: ${state.pollError}; click Refresh.`);
         else if (dirtyCount()) elements.stateSummary.textContent = languageText(`${dirtyCount()} 组运行配置尚未写入闪存。`, `${dirtyCount()} running configuration group(s) are not saved to flash.`);
         else elements.stateSummary.textContent = languageText("配置与闪存已同步。", "Configuration matches flash.");
+        const dirty = dirtyCount() > 0;
+        elements.stateSummary.classList.toggle("wg-dirty", dirty);
+        elements.save.classList.toggle("wg-dirty", dirty);
       }
 
       function renderAll() {
@@ -1703,14 +1813,26 @@
 
       function ratioInput(event) {
         const input = event.target.closest(".wg-ratio-input");
-        if (!input || !state.ratio) return;
-        const index = Number(input.dataset.ratioIndex);
-        state.ratio.raw[index] = input.value;
-        state.ratio.focused[index] = document.activeElement === input;
-        const value = canonicalize(input.value, state.ratio.limits);
-        if (value !== null) {
-          state.ratio.draft[index] = value;
-          scheduleResource("ratio", commitRatio, false);
+        const slider = event.target.closest(".wg-ratio-slider");
+        if ((!input && !slider) || !state.ratio) return;
+        const index = Number((input || slider).dataset.ratioIndex);
+        if (input) {
+          state.ratio.raw[index] = input.value;
+          state.ratio.focused[index] = document.activeElement === input;
+          const value = canonicalize(input.value, state.ratio.limits);
+          if (value !== null) {
+            state.ratio.draft[index] = value;
+            scheduleResource("ratio", commitRatio, false);
+          }
+        } else {
+          // 推杆位置与数值线性对应，范围收窄为常用段 0.25–10；全范围仍可经文本框输入
+          const value = canonicalize(slider.value, state.ratio.limits);
+          if (value !== null) {
+            state.ratio.focused[index] = false;
+            state.ratio.raw[index] = formatNumber(value, state.ratio.limits.step);
+            state.ratio.draft[index] = value;
+            scheduleResource("ratio", commitRatio, false);
+          }
         }
         renderRatio();
         updateControls();
